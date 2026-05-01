@@ -1,32 +1,18 @@
 {
-  "name": "mini-instagram",
+  "name": "incor",
   "version": "1.0.0",
-  "private": true,
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev --name init",
-    "seed": "ts-node --transpile-only prisma/seed.ts"
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "next-auth": "^4.22.1",
-    "@prisma/client": "^5.0.0",
-    "bcryptjs": "^2.4.3",
-    "cloudinary": "latest",
-    "swr": "^2.2.0"
-  },
-  "devDependencies": {
-    "prisma": "^5.0.0",
-    "tailwindcss": "^4.0.0",
-    "postcss": "^8.0.0",
     "autoprefixer": "^10.0.0",
     "typescript": "^5.0.0",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "cloudinary": "^2.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
