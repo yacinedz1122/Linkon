@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  isMuted   Boolean  @default(false)
+  isBanned  Boolean  @default(false)
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  reports   Report[] @relation("reports_by_user")
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  imageUrl  String
+  mediaType MediaType @default(IMAGE)
+  caption   String?
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[]
+  likes     Like[]
+  reports   Report[]  @relation("reports_on_post")
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  reports   Report[] @relation("reports_on_comment")
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id       String @id @default(cuid())
+  post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  createdAt DateTime @default(now())
+  @@unique([postId, userId])
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  reporter   User     @relation("reports_by_user", fields: [reporterId], references: [id])
+  reporterId String
+  post       Post?    @relation("reports_on_post", fields: [postId], references: [id])
+  postId     String?
+  comment    Comment? @relation("reports_on_comment", fields: [commentId], references: [id])
+  commentId  String?
+  reason     String
+  status     String   @default("open")
+  createdAt  DateTime @default(now())
+}
