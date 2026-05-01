@@ -12,7 +12,7 @@
     "autoprefixer": "^10.0.0",
     "typescript": "^5.0.0",
     "ts-node": "^10.0.0",
-    "cloudinary": "^2.0.0"
+    "cloudinary": "latest"
   },
   "engines": {
     "node": ">=18.0.0"
